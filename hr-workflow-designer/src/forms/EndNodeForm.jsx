@@ -56,23 +56,21 @@ export default function EndNodeForm({ node }) {
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="relative">
-          <input
-            id="summaryFlag"
-            type="checkbox"
-            {...register('summaryFlag')}
-            className="sr-only peer"
+        <div
+          role="switch"
+          aria-checked={watch('summaryFlag')}
+          onClick={() => setValue('summaryFlag', !watch('summaryFlag'), { shouldDirty: true })}
+          className={`relative w-9 h-5 rounded-full cursor-pointer transition-colors duration-200
+            ${watch('summaryFlag') ? 'bg-indigo-500' : 'bg-slate-700'}`}
+        >
+          <span
+            className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow
+              transition-transform duration-200
+              ${watch('summaryFlag') ? 'translate-x-4' : 'translate-x-0'}`}
           />
-          <label
-            htmlFor="summaryFlag"
-            className="flex h-5 w-9 cursor-pointer items-center rounded-full bg-slate-700
-                       transition-colors peer-checked:bg-indigo-500"
-          >
-            <span className="ml-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform
-                             peer-checked:translate-x-4 translate-x-0 block" />
-          </label>
         </div>
-        <label htmlFor="summaryFlag" className="text-sm text-slate-300 cursor-pointer">
+        <label className="text-sm text-slate-300 cursor-pointer select-none"
+               onClick={() => setValue('summaryFlag', !watch('summaryFlag'), { shouldDirty: true })}>
           Generate Workflow Summary
         </label>
       </div>

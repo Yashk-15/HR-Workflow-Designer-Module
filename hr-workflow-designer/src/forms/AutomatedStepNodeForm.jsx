@@ -1,14 +1,12 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import useWorkflowStore from '@/store/workflowStore';
-import { getAutomations } from '@/api/automations';
+import { useAutomations } from '@/hooks/useAutomations';
 
 export default function AutomatedStepNodeForm({ node }) {
   const updateNodeData = useWorkflowStore((s) => s.updateNodeData);
-  const [automations, setAutomations] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+  const { automations, loading } = useAutomations();
   const { register, watch, setValue, reset, formState: { errors } } = useForm({
     defaultValues: {
       label:        node.data?.label    || '',
@@ -17,13 +15,6 @@ export default function AutomatedStepNodeForm({ node }) {
     },
   });
 
-  // Fetch automations once
-  useEffect(() => {
-    getAutomations()
-      .then(setAutomations)
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, []);
 
   useEffect(() => {
     reset({

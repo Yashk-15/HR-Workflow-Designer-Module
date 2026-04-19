@@ -48,13 +48,12 @@ function simulateWorkflow(workflow) {
   const steps = order.map((id, i) => {
     const node = nodeMap[id];
     const label = node?.data?.label || node?.type || id;
-    const delay = (i + 1) * 400; // simulate async delay in ms
-    const status = hasCycle ? 'skipped' : 'success';
+    const delay = (i + 1) * 400;
     return {
       nodeId: id,
       type: node?.type,
       label,
-      status,
+      status: 'success', // these nodes were traversed successfully before any cycle
       timestamp: new Date(Date.now() + delay).toISOString(),
       message: getStepMessage(node),
     };

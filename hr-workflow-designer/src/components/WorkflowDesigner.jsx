@@ -7,6 +7,8 @@ import ReactFlow, {
   BackgroundVariant,
   ReactFlowProvider,
   useReactFlow,
+  applyNodeChanges,
+  applyEdgeChanges,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 
@@ -99,39 +101,13 @@ function FlowCanvas() {
     [removeEdge]
   );
 
-  // ── Node / edge change handlers (position drag, etc.) ────────────────────
   const onNodesChange = useCallback(
-    (changes) => {
-      setNodes(
-        changes.reduce((acc, change) => {
-          if (change.type === 'position' && change.dragging !== undefined) {
-            return acc.map((n) =>
-              n.id === change.id
-                ? { ...n, position: change.position ?? n.position }
-                : n
-            );
-          }
-          if (change.type === 'remove') {
-            return acc.filter((n) => n.id !== change.id);
-          }
-          return acc;
-        }, nodes)
-      );
-    },
+    (changes) => setNodes(applyNodeChanges(changes, nodes)),
     [nodes, setNodes]
   );
 
   const onEdgesChange = useCallback(
-    (changes) => {
-      setEdges(
-        changes.reduce((acc, change) => {
-          if (change.type === 'remove') {
-            return acc.filter((e) => e.id !== change.id);
-          }
-          return acc;
-        }, edges)
-      );
-    },
+    (changes) => setEdges(applyEdgeChanges(changes, edges)),
     [edges, setEdges]
   );
 

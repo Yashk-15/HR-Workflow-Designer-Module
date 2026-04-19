@@ -1,21 +1,23 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 
-// WorkflowDesigner must be loaded client-only (React Flow requires window)
 const WorkflowDesigner = dynamic(
   () => import('@/components/WorkflowDesigner'),
   { ssr: false }
 );
 
-async function startMSW() {
-  if (typeof window === 'undefined') return;
-  const { worker } = await import('@/mocks/browser');
-  await worker.start({ onUnhandledRequest: 'bypass' });
-}
-
 export default function HomePage() {
+  const [mswReady, setMswReady] = useState(false);
+
   useEffect(() => {
+    async function startMSW() {
+      if (typeof window === 'undefined') return;
+      const { worker } = await import('@/mocks/browser');
+      // Block until the service worker is fully registered and intercepting
+      await worker.start({ onUnhandledRequest: 'bypass' });
+      setMswReady(true);
+    }
     startMSW();
   }, []);
 
@@ -41,9 +43,16 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Main canvas area */}
+      {/* Main canvas — only mounts after MSW service worker is ready */}
       <main className="flex-1 min-h-0">
-        <WorkflowDesigner />
+        {mswReady ? (
+          <WorkflowDesigner />
+        ) : (
+          <div className="flex items-center justify-center h-full gap-3">
+            <div className="w-4 h-4 rounded-full bg-indigo-500 animate-pulse" />
+            <span className="text-sm text-slate-500">Initialising mock API…</span>
+          </div>
+        )}
       </main>
     </div>
   );
