@@ -5,6 +5,7 @@ import ReactFlow, {
   Controls,
   MiniMap,
   BackgroundVariant,
+  ReactFlowProvider,
   useReactFlow,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
@@ -229,7 +230,6 @@ function FlowCanvas() {
 
 /** Wrapper that provides ReactFlowProvider context */
 export default function WorkflowDesigner() {
-  const { ReactFlowProvider } = require('reactflow');
   return (
     <ReactFlowProvider>
       <FlowCanvas />
