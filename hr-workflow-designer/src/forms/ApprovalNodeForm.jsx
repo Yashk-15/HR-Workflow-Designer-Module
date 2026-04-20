@@ -9,16 +9,16 @@ export default function ApprovalNodeForm({ node }) {
   const updateNodeData = useWorkflowStore((s) => s.updateNodeData);
   const { register, watch, reset, formState: { errors } } = useForm({
     defaultValues: {
-      label:                node.data?.label                || '',
-      approverRole:         node.data?.approverRole         || 'Manager',
+      label: node.data?.label || '',
+      approverRole: node.data?.approverRole || 'Manager',
       autoApproveThreshold: node.data?.autoApproveThreshold ?? 80,
     },
   });
 
   useEffect(() => {
     reset({
-      label:                node.data?.label                || '',
-      approverRole:         node.data?.approverRole         || 'Manager',
+      label: node.data?.label || '',
+      approverRole: node.data?.approverRole || 'Manager',
       autoApproveThreshold: node.data?.autoApproveThreshold ?? 80,
     });
   }, [node.id, reset]);

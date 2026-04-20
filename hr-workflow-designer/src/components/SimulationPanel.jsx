@@ -5,13 +5,13 @@ import { useWorkflowValidation } from '@/hooks/useWorkflowValidation';
 
 const STATUS_ICON = {
   success: <CheckCircle2 size={14} className="text-emerald-400 shrink-0" />,
-  error:   <XCircle     size={14} className="text-red-400 shrink-0" />,
-  skipped: <Clock       size={14} className="text-slate-500 shrink-0" />,
+  error: <XCircle size={14} className="text-red-400 shrink-0" />,
+  skipped: <Clock size={14} className="text-slate-500 shrink-0" />,
 };
 
 const STATUS_DOT = {
   success: 'bg-emerald-400',
-  error:   'bg-red-400',
+  error: 'bg-red-400',
   skipped: 'bg-slate-600',
 };
 
@@ -120,8 +120,8 @@ export default function SimulationPanel({ onClose }) {
                           </div>
                           <span className={`text-xs px-1.5 py-0.5 rounded-full shrink-0
                             ${step.status === 'success' ? 'bg-emerald-500/15 text-emerald-400'
-                            : step.status === 'error'   ? 'bg-red-500/15 text-red-400'
-                            : 'bg-slate-800 text-slate-500'}`}
+                              : step.status === 'error' ? 'bg-red-500/15 text-red-400'
+                                : 'bg-slate-800 text-slate-500'}`}
                           >
                             {step.status}
                           </span>

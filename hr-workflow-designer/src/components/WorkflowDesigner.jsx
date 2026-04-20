@@ -30,16 +30,16 @@ function FlowCanvas() {
   const [showSim, setShowSim] = useState(false);
   useHistory({ enableKeyboard: true });
 
-  const nodes           = useWorkflowStore((s) => s.nodes);
-  const edges           = useWorkflowStore((s) => s.edges);
-  const setNodes        = useWorkflowStore((s) => s.setNodes);
-  const setEdges        = useWorkflowStore((s) => s.setEdges);
-  const addNode         = useWorkflowStore((s) => s.addNode);
-  const addEdge         = useWorkflowStore((s) => s.addEdge);
-  const removeNode      = useWorkflowStore((s) => s.removeNode);
-  const removeEdge      = useWorkflowStore((s) => s.removeEdge);
+  const nodes = useWorkflowStore((s) => s.nodes);
+  const edges = useWorkflowStore((s) => s.edges);
+  const setNodes = useWorkflowStore((s) => s.setNodes);
+  const setEdges = useWorkflowStore((s) => s.setEdges);
+  const addNode = useWorkflowStore((s) => s.addNode);
+  const addEdge = useWorkflowStore((s) => s.addEdge);
+  const removeNode = useWorkflowStore((s) => s.removeNode);
+  const removeEdge = useWorkflowStore((s) => s.removeEdge);
   const setSelectedNodeId = useWorkflowStore((s) => s.setSelectedNodeId);
-  const { nodeErrors }  = useWorkflowValidation();
+  const { nodeErrors } = useWorkflowValidation();
 
   const nodesWithErrors = useMemo(
     () => nodes.map((n) => ({ ...n, data: { ...n.data, errors: nodeErrors[n.id] || [] } })),
@@ -55,7 +55,7 @@ function FlowCanvas() {
     e.preventDefault();
     const type = e.dataTransfer.getData('application/reactflow-type');
     if (!type) return;
-    const raw  = e.dataTransfer.getData('application/reactflow-data');
+    const raw = e.dataTransfer.getData('application/reactflow-data');
     addNode({
       id: genId(type),
       type,
@@ -64,9 +64,9 @@ function FlowCanvas() {
     });
   }, [screenToFlowPosition, addNode]);
 
-  const onNodeClick  = useCallback((_, n) => setSelectedNodeId(n.id), [setSelectedNodeId]);
-  const onPaneClick  = useCallback(() => setSelectedNodeId(null), [setSelectedNodeId]);
-  const onConnect    = useCallback((c) => addEdge(c), [addEdge]);
+  const onNodeClick = useCallback((_, n) => setSelectedNodeId(n.id), [setSelectedNodeId]);
+  const onPaneClick = useCallback(() => setSelectedNodeId(null), [setSelectedNodeId]);
+  const onConnect = useCallback((c) => addEdge(c), [addEdge]);
   const onNodesDelete = useCallback((del) => del.forEach((n) => removeNode(n.id)), [removeNode]);
   const onEdgesDelete = useCallback((del) => del.forEach((e) => removeEdge(e.id)), [removeEdge]);
   const onNodesChange = useCallback((c) => setNodes(applyNodeChanges(c, nodes)), [nodes, setNodes]);
@@ -98,7 +98,7 @@ function FlowCanvas() {
             <Controls className="bg-slate-900! border-slate-700! [&>button]:bg-slate-900! [&>button]:border-slate-700! [&>button]:text-slate-400!" />
             <MiniMap
               className="bg-slate-900! border-slate-700!"
-              nodeColor={(n) => ({ startNode:'#10b981', taskNode:'#3b82f6', approvalNode:'#f59e0b', automatedStepNode:'#a855f7', endNode:'#f43f5e' })[n.type] || '#64748b'}
+              nodeColor={(n) => ({ startNode: '#10b981', taskNode: '#3b82f6', approvalNode: '#f59e0b', automatedStepNode: '#a855f7', endNode: '#f43f5e' })[n.type] || '#64748b'}
               maskColor="rgba(0,0,0,0.6)"
             />
             {nodes.length === 0 && (

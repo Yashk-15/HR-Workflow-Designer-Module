@@ -9,8 +9,8 @@ export default function AutomatedStepNodeForm({ node }) {
   const { automations, loading } = useAutomations();
   const { register, watch, setValue, reset, formState: { errors } } = useForm({
     defaultValues: {
-      label:        node.data?.label    || '',
-      actionId:     node.data?.actionId || '',
+      label: node.data?.label || '',
+      actionId: node.data?.actionId || '',
       actionParams: node.data?.actionParams || {},
     },
   });
@@ -18,14 +18,14 @@ export default function AutomatedStepNodeForm({ node }) {
 
   useEffect(() => {
     reset({
-      label:        node.data?.label        || '',
-      actionId:     node.data?.actionId     || '',
+      label: node.data?.label || '',
+      actionId: node.data?.actionId || '',
       actionParams: node.data?.actionParams || {},
     });
   }, [node.id, reset]);
 
   const selectedActionId = watch('actionId');
-  const actionParams     = watch('actionParams');
+  const actionParams = watch('actionParams');
 
   // Derive selected automation's param list
   const selectedAutomation = automations.find((a) => a.id === selectedActionId);

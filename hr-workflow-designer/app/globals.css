@@ -14,14 +14,26 @@
   scrollbar-width: thin;
   scrollbar-color: #334155 transparent;
 }
-*::-webkit-scrollbar { width: 5px; height: 5px; }
-*::-webkit-scrollbar-track { background: transparent; }
-*::-webkit-scrollbar-thumb { background: #334155; border-radius: 9999px; }
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
+}
 
 /* Toggle checkbox peer trick */
-input[type="checkbox"].sr-only:checked + label {
+input[type="checkbox"].sr-only:checked+label {
   background-color: #6366f1;
 }
-input[type="checkbox"].sr-only:checked + label span {
+
+input[type="checkbox"].sr-only:checked+label span {
   transform: translateX(1rem);
 }

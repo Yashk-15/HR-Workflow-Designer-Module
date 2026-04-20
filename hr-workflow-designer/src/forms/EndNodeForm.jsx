@@ -7,16 +7,16 @@ export default function EndNodeForm({ node }) {
   const updateNodeData = useWorkflowStore((s) => s.updateNodeData);
   const { register, watch, reset } = useForm({
     defaultValues: {
-      label:       node.data?.label       || 'End',
-      endMessage:  node.data?.endMessage  || '',
+      label: node.data?.label || 'End',
+      endMessage: node.data?.endMessage || '',
       summaryFlag: node.data?.summaryFlag ?? false,
     },
   });
 
   useEffect(() => {
     reset({
-      label:       node.data?.label       || 'End',
-      endMessage:  node.data?.endMessage  || '',
+      label: node.data?.label || 'End',
+      endMessage: node.data?.endMessage || '',
       summaryFlag: node.data?.summaryFlag ?? false,
     });
   }, [node.id, reset]);
@@ -70,7 +70,7 @@ export default function EndNodeForm({ node }) {
           />
         </div>
         <label className="text-sm text-slate-300 cursor-pointer select-none"
-               onClick={() => setValue('summaryFlag', !watch('summaryFlag'), { shouldDirty: true })}>
+          onClick={() => setValue('summaryFlag', !watch('summaryFlag'), { shouldDirty: true })}>
           Generate Workflow Summary
         </label>
       </div>

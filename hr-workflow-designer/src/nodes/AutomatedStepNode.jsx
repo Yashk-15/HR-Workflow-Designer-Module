@@ -18,7 +18,7 @@ function AutomatedStepNode({ data, selected }) {
       <div className="px-3 py-2 space-y-0.5">
         <p className="text-sm font-medium text-white truncate max-w-[160px]">{data?.label || 'Untitled Action'}</p>
         {data?.actionLabel && <p className="text-xs text-purple-300/70 truncate">⚡ {data.actionLabel}</p>}
-        {!data?.actionId   && <p className="text-xs text-red-400/70">No action selected</p>}
+        {!data?.actionId && <p className="text-xs text-red-400/70">No action selected</p>}
       </div>
       <Handle type="source" position={Position.Bottom} className="bg-purple-400! border-purple-700! w-3! h-3!" />
     </div>

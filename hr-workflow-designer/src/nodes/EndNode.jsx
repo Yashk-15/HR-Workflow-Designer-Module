@@ -15,7 +15,7 @@ function EndNode({ data, selected }) {
       </div>
       <div className="px-3 py-2 space-y-0.5">
         <p className="text-sm font-medium text-white truncate max-w-[140px]">{data?.label || 'End'}</p>
-        {data?.endMessage  && <p className="text-xs text-rose-300/60 truncate italic">"{data.endMessage}"</p>}
+        {data?.endMessage && <p className="text-xs text-rose-300/60 truncate italic">"{data.endMessage}"</p>}
         {data?.summaryFlag && <span className="inline-block text-xs bg-rose-500/20 text-rose-300 px-1.5 py-0.5 rounded-full">Summary On</span>}
       </div>
     </div>

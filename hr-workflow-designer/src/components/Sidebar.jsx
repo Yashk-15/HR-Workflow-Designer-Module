@@ -46,29 +46,29 @@ const NODE_PALETTE = [
 
 const COLOR_STYLES = {
   emerald: {
-    card:   'border-emerald-700/40 bg-emerald-950/40 hover:border-emerald-500/60 hover:bg-emerald-950/70',
-    icon:   'bg-emerald-500/15 text-emerald-400',
-    label:  'text-emerald-300',
+    card: 'border-emerald-700/40 bg-emerald-950/40 hover:border-emerald-500/60 hover:bg-emerald-950/70',
+    icon: 'bg-emerald-500/15 text-emerald-400',
+    label: 'text-emerald-300',
   },
   blue: {
-    card:   'border-blue-700/40 bg-blue-950/40 hover:border-blue-500/60 hover:bg-blue-950/70',
-    icon:   'bg-blue-500/15 text-blue-400',
-    label:  'text-blue-300',
+    card: 'border-blue-700/40 bg-blue-950/40 hover:border-blue-500/60 hover:bg-blue-950/70',
+    icon: 'bg-blue-500/15 text-blue-400',
+    label: 'text-blue-300',
   },
   amber: {
-    card:   'border-amber-700/40 bg-amber-950/40 hover:border-amber-500/60 hover:bg-amber-950/70',
-    icon:   'bg-amber-500/15 text-amber-400',
-    label:  'text-amber-300',
+    card: 'border-amber-700/40 bg-amber-950/40 hover:border-amber-500/60 hover:bg-amber-950/70',
+    icon: 'bg-amber-500/15 text-amber-400',
+    label: 'text-amber-300',
   },
   purple: {
-    card:   'border-purple-700/40 bg-purple-950/40 hover:border-purple-500/60 hover:bg-purple-950/70',
-    icon:   'bg-purple-500/15 text-purple-400',
-    label:  'text-purple-300',
+    card: 'border-purple-700/40 bg-purple-950/40 hover:border-purple-500/60 hover:bg-purple-950/70',
+    icon: 'bg-purple-500/15 text-purple-400',
+    label: 'text-purple-300',
   },
   rose: {
-    card:   'border-rose-700/40 bg-rose-950/40 hover:border-rose-500/60 hover:bg-rose-950/70',
-    icon:   'bg-rose-500/15 text-rose-400',
-    label:  'text-rose-300',
+    card: 'border-rose-700/40 bg-rose-950/40 hover:border-rose-500/60 hover:bg-rose-950/70',
+    icon: 'bg-rose-500/15 text-rose-400',
+    label: 'text-rose-300',
   },
 };
 

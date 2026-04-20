@@ -10,11 +10,11 @@ import { useHistory } from '@/hooks/useHistory';
  * @param {{ onTestClick: () => void }} props
  */
 export default function Toolbar({ onTestClick }) {
-  const nodes     = useWorkflowStore((s) => s.nodes);
-  const edges     = useWorkflowStore((s) => s.edges);
-  const resetWorkflow  = useWorkflowStore((s) => s.resetWorkflow);
-  const importWF  = useWorkflowStore((s) => s.importWorkflow);
-  const fileRef   = useRef(null);
+  const nodes = useWorkflowStore((s) => s.nodes);
+  const edges = useWorkflowStore((s) => s.edges);
+  const resetWorkflow = useWorkflowStore((s) => s.resetWorkflow);
+  const importWF = useWorkflowStore((s) => s.importWorkflow);
+  const fileRef = useRef(null);
   const { isValid, errors } = useWorkflowValidation();
   const { undo, redo, canUndo, canRedo } = useHistory();
 

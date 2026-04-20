@@ -18,7 +18,7 @@ function TaskNode({ data, selected }) {
       <div className="px-3 py-2 space-y-0.5">
         <p className="text-sm font-medium text-white truncate max-w-[160px]">{data?.label || 'Untitled Task'}</p>
         {data?.assignee && <p className="text-xs text-blue-300/70 truncate">👤 {data.assignee}</p>}
-        {data?.dueDate  && <p className="text-xs text-blue-300/50 truncate">📅 {data.dueDate}</p>}
+        {data?.dueDate && <p className="text-xs text-blue-300/50 truncate">📅 {data.dueDate}</p>}
       </div>
       <Handle type="source" position={Position.Bottom} className="bg-blue-400! border-blue-700! w-3! h-3!" />
     </div>

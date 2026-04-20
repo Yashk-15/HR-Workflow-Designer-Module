@@ -9,11 +9,11 @@ import AutomatedStepNodeForm from './AutomatedStepNodeForm';
 import EndNodeForm from './EndNodeForm';
 
 const FORM_MAP = {
-  startNode:         StartNodeForm,
-  taskNode:          TaskNodeForm,
-  approvalNode:      ApprovalNodeForm,
+  startNode: StartNodeForm,
+  taskNode: TaskNodeForm,
+  approvalNode: ApprovalNodeForm,
   automatedStepNode: AutomatedStepNodeForm,
-  endNode:           EndNodeForm,
+  endNode: EndNodeForm,
 };
 
 /**
@@ -43,10 +43,10 @@ export default function NodeFormPanel() {
 
   const COLOR_MAP = {
     emerald: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
-    blue:    'text-blue-400 bg-blue-500/10 border-blue-500/30',
-    amber:   'text-amber-400 bg-amber-500/10 border-amber-500/30',
-    purple:  'text-purple-400 bg-purple-500/10 border-purple-500/30',
-    rose:    'text-rose-400 bg-rose-500/10 border-rose-500/30',
+    blue: 'text-blue-400 bg-blue-500/10 border-blue-500/30',
+    amber: 'text-amber-400 bg-amber-500/10 border-amber-500/30',
+    purple: 'text-purple-400 bg-purple-500/10 border-purple-500/30',
+    rose: 'text-rose-400 bg-rose-500/10 border-rose-500/30',
   };
   const colorClass = COLOR_MAP[meta.color] || 'text-slate-400 bg-slate-800 border-slate-700';
 

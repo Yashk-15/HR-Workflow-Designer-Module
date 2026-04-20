@@ -8,20 +8,20 @@ export default function TaskNodeForm({ node }) {
   const updateNodeData = useWorkflowStore((s) => s.updateNodeData);
   const { register, watch, setValue, reset, formState: { errors } } = useForm({
     defaultValues: {
-      label:        node.data?.label        || '',
-      description:  node.data?.description  || '',
-      assignee:     node.data?.assignee     || '',
-      dueDate:      node.data?.dueDate      || '',
+      label: node.data?.label || '',
+      description: node.data?.description || '',
+      assignee: node.data?.assignee || '',
+      dueDate: node.data?.dueDate || '',
       customFields: node.data?.customFields || {},
     },
   });
 
   useEffect(() => {
     reset({
-      label:        node.data?.label        || '',
-      description:  node.data?.description  || '',
-      assignee:     node.data?.assignee     || '',
-      dueDate:      node.data?.dueDate      || '',
+      label: node.data?.label || '',
+      description: node.data?.description || '',
+      assignee: node.data?.assignee || '',
+      dueDate: node.data?.dueDate || '',
       customFields: node.data?.customFields || {},
     });
   }, [node.id, reset]);
