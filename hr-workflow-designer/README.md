@@ -1,6 +1,6 @@
 # HR Workflow Designer
 
-> **Tredence Case Study** — Visual HR workflow builder with React Flow, Next.js 15, and Tailwind CSS v4.
+> **Tredence Case Study** — Visual HR workflow builder with React Flow, Next.js 16, and Tailwind CSS v4.
 
 ![Tech Stack](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs) ![React Flow](https://img.shields.io/badge/React%20Flow-12-blue) ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v4-38bdf8) ![MSW](https://img.shields.io/badge/MSW-mock%20API-orange)
 
@@ -32,6 +32,7 @@ No backend required. The mock API is served entirely in-browser via **MSW (Mock 
 | **Simulation sandbox** | Step-by-step execution log with timeline UI |
 | **Export/Import JSON** | Download or restore workflow as `.json` |
 | **Minimap + zoom** | Built-in React Flow controls |
+| **Undo / Redo** | Ctrl+Z / Ctrl+Y (or Ctrl+Shift+Z) — 50-step history via `zundo` |
 
 ---
 
@@ -76,9 +77,11 @@ hr-workflow-designer/
 │   │   └── KeyValueEditor.jsx  # Reusable dynamic key-value editor
 │   ├── hooks/
 │   │   ├── useWorkflowValidation.js # useMemo-based structural validation
-│   │   └── useSimulation.js         # Serialize + call API + manage state
+│   │   ├── useSimulation.js         # Serialize + call API + manage state
+│   │   ├── useAutomations.js        # Fetches /api/automations with module-level cache
+│   │   └── useHistory.js            # Undo/redo via zundo temporal + keyboard shortcuts
 │   └── utils/
-│       ├── graphUtils.js       # Cycle detection (DFS), root/leaf finders, unreachable check
+│       ├── graphUtils.js       # Cycle detection (DFS) + unreachable node check (BFS)
 │       └── exportUtils.js      # Blob download + FileReader import
 ```
 
@@ -178,4 +181,5 @@ When the user selects an action from the API list, the form reads `automation.pa
 - ✅ **Zoom controls** — React Flow built-in Controls panel
 - ✅ **Validation errors on nodes** — Red alert badge per node when flagged
 - ✅ **Delete keyboard shortcut** — `Delete` / `Backspace` keys
+- ✅ **Undo / Redo** — `Ctrl+Z` / `Ctrl+Y` / `Ctrl+Shift+Z`, 50-step history, toolbar buttons
 
