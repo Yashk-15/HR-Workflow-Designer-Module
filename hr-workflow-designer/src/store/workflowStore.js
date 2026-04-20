@@ -2,11 +2,7 @@ import { create } from 'zustand';
 import { temporal } from 'zundo';
 import { addEdge as rfAddEdge } from 'reactflow';
 
-/**
- * Central workflow store.
- * Manages React Flow nodes, edges, and selected node state.
- * Wrapped with zundo `temporal` for undo/redo — only nodes+edges are tracked.
- */
+/** Workflow graph + selection state. Wrapped with zundo temporal for undo/redo. */
 const useWorkflowStore = create(
   temporal(
     (set, get) => ({
@@ -14,68 +10,48 @@ const useWorkflowStore = create(
       edges: [],
       selectedNodeId: null,
 
-      // ── Node actions ────────────────────────────────────────────────────────
       setNodes: (nodes) => set({ nodes }),
+      addNode:  (node) => set((s) => ({ nodes: [...s.nodes, node] })),
 
-      addNode: (node) =>
-        set((state) => ({ nodes: [...state.nodes, node] })),
-
-      updateNodeData: (nodeId, dataUpdates) =>
-        set((state) => ({
-          nodes: state.nodes.map((n) =>
-            n.id === nodeId
-              ? { ...n, data: { ...n.data, ...dataUpdates } }
-              : n
+      updateNodeData: (nodeId, patch) =>
+        set((s) => ({
+          nodes: s.nodes.map((n) =>
+            n.id === nodeId ? { ...n, data: { ...n.data, ...patch } } : n
           ),
         })),
 
       removeNode: (nodeId) =>
-        set((state) => ({
-          nodes: state.nodes.filter((n) => n.id !== nodeId),
-          edges: state.edges.filter(
-            (e) => e.source !== nodeId && e.target !== nodeId
-          ),
-          selectedNodeId:
-            state.selectedNodeId === nodeId ? null : state.selectedNodeId,
+        set((s) => ({
+          nodes: s.nodes.filter((n) => n.id !== nodeId),
+          edges: s.edges.filter((e) => e.source !== nodeId && e.target !== nodeId),
+          selectedNodeId: s.selectedNodeId === nodeId ? null : s.selectedNodeId,
         })),
 
-      // ── Edge actions ────────────────────────────────────────────────────────
       setEdges: (edges) => set({ edges }),
-
       addEdge: (connection) =>
-        set((state) => ({
+        set((s) => ({
           edges: rfAddEdge(
             { ...connection, animated: true, style: { stroke: '#6366f1' } },
-            state.edges
+            s.edges
           ),
         })),
-
       removeEdge: (edgeId) =>
-        set((state) => ({
-          edges: state.edges.filter((e) => e.id !== edgeId),
-        })),
+        set((s) => ({ edges: s.edges.filter((e) => e.id !== edgeId) })),
 
-      // ── Selection ───────────────────────────────────────────────────────────
       setSelectedNodeId: (id) => set({ selectedNodeId: id }),
-
       getSelectedNode: () => {
         const { nodes, selectedNodeId } = get();
-        return nodes.find((n) => n.id === selectedNodeId) || null;
+        return nodes.find((n) => n.id === selectedNodeId) ?? null;
       },
 
-      // ── Graph reset ─────────────────────────────────────────────────────────
-      resetWorkflow: () => set({ nodes: [], edges: [], selectedNodeId: null }),
-
-      // ── Import / export ─────────────────────────────────────────────────────
+      resetWorkflow:  () => set({ nodes: [], edges: [], selectedNodeId: null }),
       importWorkflow: ({ nodes, edges }) => set({ nodes, edges, selectedNodeId: null }),
     }),
     {
-      // Only track nodes + edges in history — selection is transient UI state
-      partialize: (state) => ({ nodes: state.nodes, edges: state.edges }),
+      partialize: (s) => ({ nodes: s.nodes, edges: s.edges }),
       limit: 50,
     }
   )
 );
 
 export default useWorkflowStore;
-

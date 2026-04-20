@@ -3,10 +3,6 @@ import { simulateWorkflow } from '@/api/simulate';
 import useWorkflowStore from '@/store/workflowStore';
 import useSimulationStore from '@/store/simulationStore';
 
-/**
- * Custom hook that serializes the current workflow and calls POST /api/simulate.
- * Manages loading / result / error state via simulationStore.
- */
 export function useSimulation() {
   const nodes = useWorkflowStore((s) => s.nodes);
   const edges = useWorkflowStore((s) => s.edges);
@@ -16,8 +12,7 @@ export function useSimulation() {
   const run = useCallback(async () => {
     setRunning();
     try {
-      const data = await simulateWorkflow({ nodes, edges });
-      setResult(data);
+      setResult(await simulateWorkflow({ nodes, edges }));
     } catch (err) {
       setError(err.message || 'Unknown simulation error');
     }

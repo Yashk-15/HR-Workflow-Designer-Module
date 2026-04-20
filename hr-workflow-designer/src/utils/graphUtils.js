@@ -1,76 +1,35 @@
-/**
- * Graph utility functions for workflow validation and traversal.
- */
-
-/**
- * Detect cycles in a directed graph using DFS.
- * @param {string[]} nodeIds
- * @param {Array<{source: string, target: string}>} edges
- * @returns {boolean} true if cycle found
- */
+/** DFS cycle detection for directed graph. */
 export function hasCycle(nodeIds, edges) {
   const adj = {};
   nodeIds.forEach((id) => { adj[id] = []; });
-  edges.forEach((e) => {
-    if (adj[e.source]) adj[e.source].push(e.target);
-  });
+  edges.forEach((e) => { if (adj[e.source]) adj[e.source].push(e.target); });
 
-  const WHITE = 0, GRAY = 1, BLACK = 2;
   const color = {};
-  nodeIds.forEach((id) => { color[id] = WHITE; });
+  nodeIds.forEach((id) => { color[id] = 0; });
 
   function dfs(u) {
-    color[u] = GRAY;
+    color[u] = 1;
     for (const v of adj[u] || []) {
-      if (color[v] === GRAY) return true;
-      if (color[v] === WHITE && dfs(v)) return true;
+      if (color[v] === 1) return true;
+      if (color[v] === 0 && dfs(v)) return true;
     }
-    color[u] = BLACK;
+    color[u] = 2;
     return false;
   }
 
-  return nodeIds.some((id) => color[id] === WHITE && dfs(id));
+  return nodeIds.some((id) => color[id] === 0 && dfs(id));
 }
 
-/**
- * Find nodes with no incoming edges (candidates for Start position).
- * @param {string[]} nodeIds
- * @param {Array<{source: string, target: string}>} edges
- * @returns {string[]}
- */
-export function findRoots(nodeIds, edges) {
-  const hasIncoming = new Set(edges.map((e) => e.target));
-  return nodeIds.filter((id) => !hasIncoming.has(id));
-}
-
-/**
- * Find nodes with no outgoing edges (candidates for End position).
- * @param {string[]} nodeIds
- * @param {Array<{source: string, target: string}>} edges
- * @returns {string[]}
- */
-export function findLeaves(nodeIds, edges) {
-  const hasOutgoing = new Set(edges.map((e) => e.source));
-  return nodeIds.filter((id) => !hasOutgoing.has(id));
-}
-
-/**
- * Check if all nodes are reachable (graph is connected).
- * Returns node IDs that are unreachable.
- * @param {string[]} nodeIds
- * @param {Array<{source: string, target: string}>} edges
- * @returns {string[]} unreachable node IDs
- */
+/** BFS connectivity check — returns node IDs not reachable from any other node. */
 export function findUnreachableNodes(nodeIds, edges) {
   if (nodeIds.length === 0) return [];
   const adj = {};
   nodeIds.forEach((id) => { adj[id] = []; });
   edges.forEach((e) => {
     if (adj[e.source]) adj[e.source].push(e.target);
-    if (adj[e.target]) adj[e.target].push(e.source); // undirected check
+    if (adj[e.target]) adj[e.target].push(e.source);
   });
 
-  // BFS from first node
   const visited = new Set();
   const queue = [nodeIds[0]];
   while (queue.length > 0) {
@@ -79,6 +38,5 @@ export function findUnreachableNodes(nodeIds, edges) {
     visited.add(id);
     (adj[id] || []).forEach((nb) => queue.push(nb));
   }
-
   return nodeIds.filter((id) => !visited.has(id));
 }

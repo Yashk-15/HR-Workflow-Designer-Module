@@ -7,9 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const nextConfig = {
   turbopack: {
     root: __dirname,
-    resolveAlias: {
-      '@': path.resolve(__dirname, 'src'),
-    },
+    resolveAlias: { '@': path.resolve(__dirname, 'src') },
   },
 };
 
