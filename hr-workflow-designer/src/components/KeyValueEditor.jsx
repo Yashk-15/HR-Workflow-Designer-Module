@@ -98,7 +98,7 @@ export default function KeyValueEditor({ value = {}, onChange, label = 'Custom F
               )}
             </div>
             <input
-              className="flex-[2] bg-slate-800 border border-slate-700 rounded-md px-2 py-1 text-xs text-slate-200
+              className="flex-2 bg-slate-800 border border-slate-700 rounded-md px-2 py-1 text-xs text-slate-200
                          placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-colors"
               value={val}
               placeholder="value"

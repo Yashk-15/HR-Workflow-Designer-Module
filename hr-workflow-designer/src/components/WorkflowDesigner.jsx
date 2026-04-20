@@ -95,9 +95,9 @@ function FlowCanvas() {
             proOptions={{ hideAttribution: true }}
           >
             <Background variant={BackgroundVariant.Dots} gap={24} size={1} color="#1e293b" />
-            <Controls className="!bg-slate-900 !border-slate-700 [&>button]:!bg-slate-900 [&>button]:!border-slate-700 [&>button]:!text-slate-400" />
+            <Controls className="bg-slate-900! border-slate-700! [&>button]:bg-slate-900! [&>button]:border-slate-700! [&>button]:text-slate-400!" />
             <MiniMap
-              className="!bg-slate-900 !border-slate-700"
+              className="bg-slate-900! border-slate-700!"
               nodeColor={(n) => ({ startNode:'#10b981', taskNode:'#3b82f6', approvalNode:'#f59e0b', automatedStepNode:'#a855f7', endNode:'#f43f5e' })[n.type] || '#64748b'}
               maskColor="rgba(0,0,0,0.6)"
             />

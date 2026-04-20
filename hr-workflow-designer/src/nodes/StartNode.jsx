@@ -8,7 +8,7 @@ function StartNode({ data, selected }) {
   return (
     <div className={`relative min-w-[160px] rounded-xl shadow-lg border-2 transition-all duration-200
       ${selected ? 'border-emerald-400 shadow-emerald-400/30 shadow-xl' : 'border-emerald-600/40'}
-      bg-gradient-to-br from-emerald-950 to-emerald-900`}>
+      bg-linear-to-br from-emerald-950 to-emerald-900`}>
       <div className="flex items-center gap-2 px-3 py-2 bg-emerald-500/20 rounded-t-xl border-b border-emerald-600/30">
         <Play size={13} className="text-emerald-400 fill-emerald-400" />
         <span className="text-xs font-semibold uppercase tracking-widest text-emerald-300">Start</span>
@@ -20,7 +20,7 @@ function StartNode({ data, selected }) {
           <p className="text-xs text-emerald-400/70 mt-0.5">{Object.keys(data.metadata).length} metadata field(s)</p>
         )}
       </div>
-      <Handle type="source" position={Position.Bottom} className="!bg-emerald-400 !border-emerald-700 !w-3 !h-3" />
+      <Handle type="source" position={Position.Bottom} className="bg-emerald-400! border-emerald-700! w-3! h-3!" />
     </div>
   );
 }

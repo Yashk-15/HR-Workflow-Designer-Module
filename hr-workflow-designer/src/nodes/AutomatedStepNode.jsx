@@ -8,8 +8,8 @@ function AutomatedStepNode({ data, selected }) {
   return (
     <div className={`relative min-w-[180px] rounded-xl shadow-lg border-2 transition-all duration-200
       ${selected ? 'border-purple-400 shadow-purple-400/30 shadow-xl' : 'border-purple-600/40'}
-      bg-gradient-to-br from-purple-950 to-purple-900`}>
-      <Handle type="target" position={Position.Top} className="!bg-purple-400 !border-purple-700 !w-3 !h-3" />
+      bg-linear-to-br from-purple-950 to-purple-900`}>
+      <Handle type="target" position={Position.Top} className="bg-purple-400! border-purple-700! w-3! h-3!" />
       <div className="flex items-center gap-2 px-3 py-2 bg-purple-500/20 rounded-t-xl border-b border-purple-600/30">
         <Zap size={13} className="text-purple-400 fill-purple-400" />
         <span className="text-xs font-semibold uppercase tracking-widest text-purple-300">Auto Step</span>
@@ -20,7 +20,7 @@ function AutomatedStepNode({ data, selected }) {
         {data?.actionLabel && <p className="text-xs text-purple-300/70 truncate">⚡ {data.actionLabel}</p>}
         {!data?.actionId   && <p className="text-xs text-red-400/70">No action selected</p>}
       </div>
-      <Handle type="source" position={Position.Bottom} className="!bg-purple-400 !border-purple-700 !w-3 !h-3" />
+      <Handle type="source" position={Position.Bottom} className="bg-purple-400! border-purple-700! w-3! h-3!" />
     </div>
   );
 }
