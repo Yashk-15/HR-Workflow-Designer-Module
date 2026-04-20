@@ -15,6 +15,7 @@ import 'reactflow/dist/style.css';
 import useWorkflowStore from '@/store/workflowStore';
 import { nodeTypes } from '@/nodes/index';
 import { useWorkflowValidation } from '@/hooks/useWorkflowValidation';
+import { useHistory } from '@/hooks/useHistory';
 import Sidebar from './Sidebar';
 import Toolbar from './Toolbar';
 import ValidationBanner from './ValidationBanner';
@@ -28,6 +29,9 @@ function FlowCanvas() {
   const reactFlowWrapper = useRef(null);
   const { screenToFlowPosition } = useReactFlow();
   const [showSim, setShowSim] = useState(false);
+
+  // Register Ctrl+Z / Ctrl+Y keyboard shortcuts globally from canvas root
+  useHistory({ enableKeyboard: true });
 
   const nodes            = useWorkflowStore((s) => s.nodes);
   const edges            = useWorkflowStore((s) => s.edges);

@@ -1,9 +1,10 @@
 'use client';
-import { Download, Upload, RotateCcw, Play, CheckCircle, AlertTriangle } from 'lucide-react';
+import { Download, Upload, RotateCcw, Play, CheckCircle, AlertTriangle, Undo2, Redo2 } from 'lucide-react';
 import { useRef } from 'react';
 import useWorkflowStore from '@/store/workflowStore';
 import { exportWorkflow, importWorkflow } from '@/utils/exportUtils';
 import { useWorkflowValidation } from '@/hooks/useWorkflowValidation';
+import { useHistory } from '@/hooks/useHistory';
 
 /**
  * @param {{ onTestClick: () => void }} props
@@ -15,6 +16,7 @@ export default function Toolbar({ onTestClick }) {
   const importWF  = useWorkflowStore((s) => s.importWorkflow);
   const fileRef   = useRef(null);
   const { isValid, errors } = useWorkflowValidation();
+  const { undo, redo, canUndo, canRedo } = useHistory();
 
   const handleExport = () => exportWorkflow(nodes, edges);
 
@@ -34,6 +36,30 @@ export default function Toolbar({ onTestClick }) {
     <div className="flex items-center gap-2 px-4 py-2.5 bg-slate-950/90 border-t border-slate-800 shrink-0">
       {/* Left: workflow actions */}
       <div className="flex items-center gap-1.5">
+        {/* Undo / Redo */}
+        <button
+          onClick={undo}
+          disabled={!canUndo}
+          title="Undo (Ctrl+Z)"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium
+                     text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700
+                     hover:border-slate-600 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          <Undo2 size={13} />
+        </button>
+        <button
+          onClick={redo}
+          disabled={!canRedo}
+          title="Redo (Ctrl+Y / Ctrl+Shift+Z)"
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium
+                     text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700
+                     hover:border-slate-600 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+        >
+          <Redo2 size={13} />
+        </button>
+
+        <div className="w-px h-4 bg-slate-700 mx-0.5" />
+
         <button
           onClick={handleExport}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium
