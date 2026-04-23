@@ -99,9 +99,5 @@ Each form uses `watch()` to subscribe to field changes and writes to the store o
 
 - **Edge labels** — "Approved / Rejected / Cancelled" branches on Approval nodes to support conditional routing
 - **Local storage persistence** — Auto-save workflow state so refreshing the page doesn't reset progress
-- **Conditional node type** — A branching node with configurable rules (visible in the reference screenshot)
-- **Real backend** — Replace MSW with actual Next.js API routes backed by a database (PostgreSQL + Prisma)
+- **Real backend** — Replace MSW with actual Next.js API routes backed by a database
 - **Role-based access** — Lock certain node types or workflow actions behind user roles
-- **Simulation animation** — Highlight the active node and edge during simulation playback with step delays
-- **Unit tests** — Jest tests for `graphUtils.js` (cycle detection, reachability) and the Zustand store actions
-- **Keyboard navigation** — Full keyboard support for selecting and configuring nodes without a mouse
