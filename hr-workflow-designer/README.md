@@ -1,38 +1,19 @@
 # HR Workflow Designer
 
-> **Tredence Case Study** — Visual HR workflow builder with React Flow, Next.js 16, and Tailwind CSS v4.
-
-![Tech Stack](https://img.shields.io/badge/Next.js-16-black?logo=nextdotjs) ![React Flow](https://img.shields.io/badge/React%20Flow-12-blue) ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v4-38bdf8) ![MSW](https://img.shields.io/badge/MSW-mock%20API-orange)
+> Tredence Case Study — A visual drag-and-drop HR workflow builder.
 
 ---
 
-## Quick Start
+## How to Run
 
 ```bash
+cd hr-workflow-designer
 npm install
 npm run dev
 # → http://localhost:3000
 ```
 
-No backend required. The mock API is served entirely in-browser via **MSW (Mock Service Worker)**.
-
----
-
-## Features
-
-| Feature | Details |
-|---|---|
-| **5 custom node types** | Start, Task, Approval, Automated Step, End |
-| **Drag & drop** | Drag nodes from left sidebar onto the canvas |
-| **Connect nodes** | Click and drag from any handle to connect |
-| **Delete nodes/edges** | `Delete`/`Backspace` key or Trash button in form panel |
-| **Node config forms** | Dynamic forms per node type with live preview |
-| **Validation** | Real-time structural validation with per-node error badges |
-| **Mock API** | `GET /api/automations` + `POST /api/simulate` via MSW |
-| **Simulation sandbox** | Step-by-step execution log with timeline UI |
-| **Export/Import JSON** | Download or restore workflow as `.json` |
-| **Minimap + zoom** | Built-in React Flow controls |
-| **Undo / Redo** | Ctrl+Z / Ctrl+Y (or Ctrl+Shift+Z) — 50-step history via `zundo` |
+No backend needed. API calls are intercepted in-browser by **MSW (Mock Service Worker)**.
 
 ---
 
@@ -40,146 +21,87 @@ No backend required. The mock API is served entirely in-browser via **MSW (Mock 
 
 ```
 hr-workflow-designer/
-├── app/                        # Next.js App Router
-│   ├── layout.js               # Root layout (Inter font, dark theme)
-│   ├── page.js                 # App shell — MSW bootstrap + WorkflowDesigner mount
-│   └── globals.css             # Tailwind v4 import + custom theme tokens
+├── app/
+│   ├── layout.js               # Root layout (Inter font)
+│   ├── page.js                 # App shell + MSW bootstrap gate
+│   └── globals.css             # Tailwind v4 + React Flow overrides
 ├── src/
-│   ├── api/                    # Fetch wrappers (easy to swap for real endpoints)
-│   │   ├── automations.js      # GET /api/automations
-│   │   └── simulate.js         # POST /api/simulate
-│   ├── mocks/                  # MSW handlers & browser worker setup
-│   │   ├── handlers.js         # Route handlers with topological simulation logic
-│   │   └── browser.js          # MSW browser worker export
-│   ├── store/                  # Zustand global state
-│   │   ├── workflowStore.js    # nodes, edges, selection, import/export
-│   │   └── simulationStore.js  # simulation status + execution log
-│   ├── nodes/                  # Custom React Flow node components
-│   │   ├── StartNode.jsx       # Green — source handle only
-│   │   ├── TaskNode.jsx        # Blue — assignee + due date preview
-│   │   ├── ApprovalNode.jsx    # Amber — approver role + threshold
-│   │   ├── AutomatedStepNode.jsx # Purple — action label from API
-│   │   ├── EndNode.jsx         # Rose — target handle only
+│   ├── store/
+│   │   ├── workflowStore.js    # Zustand store wrapped with zundo (undo/redo)
+│   │   └── simulationStore.js  # Simulation run status + result
+│   ├── nodes/                  # 5 custom React Flow node components
 │   │   └── index.js            # nodeTypes map + NODE_TYPE_META
-│   ├── forms/                  # Node configuration forms
-│   │   ├── NodeFormPanel.jsx   # Dispatcher by node.type
-│   │   ├── StartNodeForm.jsx   # title + metadata (key-value)
-│   │   ├── TaskNodeForm.jsx    # title* + desc + assignee + dueDate + customFields
-│   │   ├── ApprovalNodeForm.jsx # title + approverRole select + threshold
-│   │   ├── AutomatedStepNodeForm.jsx # title + action picker + dynamic params
-│   │   └── EndNodeForm.jsx     # endMessage + summaryFlag toggle
-│   ├── components/             # Shared UI components
-│   │   ├── WorkflowDesigner.jsx # Main canvas (ReactFlowProvider + FlowCanvas)
-│   │   ├── Sidebar.jsx         # Draggable node palette (5 cards)
-│   │   ├── Toolbar.jsx         # Export/Import/Reset + validation badge + Test button
-│   │   ├── SimulationPanel.jsx # Modal sandbox with step timeline
-│   │   ├── ValidationBanner.jsx # Global error list banner
-│   │   └── KeyValueEditor.jsx  # Reusable dynamic key-value editor
+│   ├── forms/                  # Per-node config forms (react-hook-form)
+│   │   └── NodeFormPanel.jsx   # Dispatcher — reads selectedNodeId, renders right form
+│   ├── components/
+│   │   ├── WorkflowDesigner.jsx  # ReactFlowProvider + canvas + layout
+│   │   ├── Sidebar.jsx           # Icon sidebar + draggable node palette
+│   │   ├── Toolbar.jsx           # Export / Import / Reset / Undo / Redo
+│   │   ├── ValidationBanner.jsx  # Global error list above toolbar
+│   │   ├── SimulationPanel.jsx   # Modal sandbox with step timeline
+│   │   └── KeyValueEditor.jsx    # Reusable key-value field editor
 │   ├── hooks/
-│   │   ├── useWorkflowValidation.js # useMemo-based structural validation
-│   │   ├── useSimulation.js         # Serialize + call API + manage state
-│   │   ├── useAutomations.js        # Fetches /api/automations with module-level cache
-│   │   └── useHistory.js            # Undo/redo via zundo temporal + keyboard shortcuts
-│   └── utils/
-│       ├── graphUtils.js       # Cycle detection (DFS) + unreachable node check (BFS)
-│       └── exportUtils.js      # Blob download + FileReader import
+│   │   ├── useWorkflowValidation.js  # Graph validation (cycle, connectivity, required fields)
+│   │   ├── useSimulation.js          # Calls POST /api/simulate
+│   │   ├── useAutomations.js         # Fetches GET /api/automations (module-level cache)
+│   │   └── useHistory.js             # Undo/redo via zundo + keyboard shortcuts
+│   ├── utils/
+│   │   ├── graphUtils.js       # DFS cycle detection + BFS reachability
+│   │   └── exportUtils.js      # JSON download + FileReader import
+│   ├── api/
+│   │   ├── automations.js      # fetch wrapper for GET /api/automations
+│   │   └── simulate.js         # fetch wrapper for POST /api/simulate
+│   └── mocks/
+│       ├── handlers.js         # MSW route handlers + topological simulation logic
+│       └── browser.js          # MSW browser worker setup
 ```
 
 ---
 
 ## Design Decisions
 
-### 1. Zustand over Redux/Context
-React Flow recommends avoiding Redux for node state. Zustand's flat, selector-based model plays perfectly with React Flow's callback pattern — no `useCallback` dependency hell.
+**Zustand over Context/Redux**  
+React Flow recommends keeping node state flat and close to the canvas. Zustand's selector-based model avoids unnecessary re-renders without boilerplate.
 
-### 2. MSW over JSON Server
-MSW runs in-browser as a service worker with zero extra processes. The simulation mock includes a real topological sort so the `/simulate` response actually reflects graph structure.
+**zundo for Undo/Redo**  
+Wrapped the Zustand store with `temporal` middleware. Used `partialize` to track only `nodes` and `edges` — UI-only state (selection, form state) doesn't pollute the history stack. Limit set to 50 steps.
 
-### 3. NodeFormPanel as a Dispatcher
-Rather than colocating forms inside node components (which bloats them), `NodeFormPanel` is a pure router — it reads `selectedNodeId` from the store, finds the node, and renders the correct form. Adding a new node type = add one entry to `FORM_MAP`. No changes elsewhere.
+**MSW over JSON Server**  
+Runs entirely in-browser as a Service Worker with zero extra processes. The `/api/simulate` handler performs a real topological sort so the response actually reflects the graph structure.
 
-### 4. React Hook Form + Zustand
-Each form uses `react-hook-form`'s `watch()` subscription to live-sync field changes to the store. The node on the canvas updates instantly without re-rendering the entire tree.
+**NodeFormPanel as a Dispatcher**  
+Forms are completely decoupled from node components. `NodeFormPanel` reads `selectedNodeId`, looks up a `FORM_MAP`, and renders the correct form. Adding a new node type = add one entry to the map.
 
-### 5. Validation as a Pure Hook
-`useWorkflowValidation` is a `useMemo` over `[nodes, edges]`. It returns:
-- `errors[]` — global error strings for `ValidationBanner`
-- `nodeErrors{}` — per-node error arrays injected into each node's `data.errors` before rendering
-- `isValid` — boolean for `Toolbar` badge
+**react-hook-form with live Zustand sync**  
+Each form uses `watch()` to subscribe to field changes and writes to the store on every keystroke. The node on canvas updates in real-time without re-rendering the whole tree.
 
-This means validation runs on every nodes/edges change with zero side effects.
+**Validation as a pure hook**  
+`useWorkflowValidation` is a `useMemo` over `[nodes, edges]`. Returns `errors[]`, `nodeErrors{}` (per-node), and `isValid`. Zero side effects — runs synchronously on every graph change.
 
-### 6. Dynamic param fields in AutomatedStepNodeForm
-When the user selects an action from the API list, the form reads `automation.params[]` and renders one text input per param — completely data-driven. Adding new action types in the mock (or future real API) automatically produces the correct form with zero code changes.
+**MSW initialization gate**  
+`page.js` awaits `worker.start()` before mounting the React tree, preventing a race condition where `AutomatedStepNodeForm` mounts and fetches `/api/automations` before the service worker is registered.
 
 ---
 
-## Mock API Contract
+## What I Completed
 
-### `GET /api/automations`
-```json
-[
-  { "id": "send_email",    "label": "Send Email",        "params": ["to", "subject"] },
-  { "id": "generate_doc",  "label": "Generate Document", "params": ["template", "recipient"] },
-  { "id": "create_ticket", "label": "Create HR Ticket",  "params": ["type", "priority"] },
-  { "id": "notify_slack",  "label": "Notify via Slack",  "params": ["channel", "message"] }
-]
-```
+- **Canvas** — Drag-and-drop workflow builder with React Flow; connect, move, and delete nodes and edges
+- **5 Node types** — Start, Task, Approval, Automated Step, End; each with a distinct config form
+- **Node config forms** — Per-type forms with live canvas preview (react-hook-form + Zustand sync)
+- **Validation engine** — Cycle detection (DFS), connectivity check (BFS), required field checks; per-node error badges + global banner
+- **Mock API** — `GET /api/automations` returns 4 automation types; `POST /api/simulate` runs a topological sort and returns a step-by-step execution log
+- **Simulation sandbox** — Modal panel showing execution timeline with status per node
+- **Undo / Redo** — 50-step history via zundo; `Ctrl+Z` / `Ctrl+Y` / `Ctrl+Shift+Z`; Toolbar buttons
+- **Export / Import** — Download workflow as JSON; re-import to restore state
+- **UI design** — Dark icon sidebar, floating badge nodes, cool-gray canvas with dot grid
 
-### `POST /api/simulate`
-**Request body:** `{ nodes: ReactFlowNode[], edges: ReactFlowEdge[] }`
+## What I Would Add With More Time
 
-**Response:**
-```json
-{
-  "success": true,
-  "totalNodes": 5,
-  "executedNodes": 5,
-  "summary": "✓ Workflow executed successfully across 5 step(s).",
-  "steps": [
-    {
-      "nodeId": "startNode_1",
-      "type": "startNode",
-      "label": "Start",
-      "status": "success",
-      "timestamp": "2025-01-01T00:00:00.400Z",
-      "message": "Workflow started: \"Start\""
-    }
-  ]
-}
-```
-
----
-
-## Validation Rules
-
-| Rule | Description |
-|---|---|
-| One Start node | Exactly one `startNode` is required |
-| One End node | At least one `endNode` is required |
-| No cycles | DFS cycle detection across all edges |
-| No islands | All nodes must be connected (BFS reachability check) |
-| Required titles | Task, Approval, and AutoStep nodes must have a non-empty label |
-| Action selected | AutoStep nodes must have an `actionId` selected |
-
----
-
-## Assumptions
-
-- No authentication or backend persistence required per spec.
-- Workflow state is **in-memory only** (refreshing the page resets it — use Export JSON to persist).
-- "Auto-approve threshold" is stored as a percentage (0–100) with no real business logic behind it in this prototype.
-- The simulation result is deterministic and mock-only: it performs a real topological sort but does not evaluate node conditions or branching logic.
-- MSW service worker requires a `public/mockServiceWorker.js` file (already included via `npx msw init`).
-
----
-
-## Bonus Features Implemented
-
-- ✅ **Export/Import JSON** — Full round-trip via Toolbar buttons
-- ✅ **Minimap** — Color-coded per node type
-- ✅ **Zoom controls** — React Flow built-in Controls panel
-- ✅ **Validation errors on nodes** — Red alert badge per node when flagged
-- ✅ **Delete keyboard shortcut** — `Delete` / `Backspace` keys
-- ✅ **Undo / Redo** — `Ctrl+Z` / `Ctrl+Y` / `Ctrl+Shift+Z`, 50-step history, toolbar buttons
-
+- **Edge labels** — "Approved / Rejected / Cancelled" branches on Approval nodes to support conditional routing
+- **Local storage persistence** — Auto-save workflow state so refreshing the page doesn't reset progress
+- **Conditional node type** — A branching node with configurable rules (visible in the reference screenshot)
+- **Real backend** — Replace MSW with actual Next.js API routes backed by a database (PostgreSQL + Prisma)
+- **Role-based access** — Lock certain node types or workflow actions behind user roles
+- **Simulation animation** — Highlight the active node and edge during simulation playback with step delays
+- **Unit tests** — Jest tests for `graphUtils.js` (cycle detection, reachability) and the Zustand store actions
+- **Keyboard navigation** — Full keyboard support for selecting and configuring nodes without a mouse
